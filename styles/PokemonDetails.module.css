@@ -1,0 +1,10 @@
+.PokemonDetails{
+    display: flex;
+    padding: 2rem;
+}
+
+.PokemonDetails img {
+    width:10rem;
+    height:10rem;
+    margin-right: 1rem;
+  }
