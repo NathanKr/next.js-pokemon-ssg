@@ -44,3 +44,9 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
 };
 
 ```
+
+<h2>build log</h2>
+
+notice that the dynamic route are prepared up front as static page per pokemon id
+
+1[build-log](./figs/ssg-build-log.png)

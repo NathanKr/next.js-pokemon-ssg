@@ -79,7 +79,7 @@ const PokemonDetails = (props: { pokemonDetails: IPokemonDetails }) => {
   return (
     <>
       <h2>
-        This pokemon details are fetched using SSG function getStaticProps
+        This pokemon details are fetched using SSG functions getStaticProps + getStaticPaths
       </h2>
       <h4>
         thus <span style={{ color: "red" }}>html document</span> is downloaded
