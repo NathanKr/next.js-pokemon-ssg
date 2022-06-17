@@ -2,6 +2,14 @@
 Play with static site generation (ssg). following <a href='https://www.youtube.com/watch?v=kdXKz1UWc3E'>this : starting 17:45<a>
 
 
+<h2>Static Site Generation and getStaticProps</h2>
+getStaticProps is computed on build time for production but for development it is computed on each request. If you want to simulate production simply :
+
+```
+npm run build
+npm run start
+```
+
 <h2>Top level schema</h2>
 
 ![top-level-schema](./figs/static-site-generation.png)
