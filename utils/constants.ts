@@ -1,0 +1,1 @@
+export const URL_POKEMONS_JSON = "https://jherr-pokemon.s3.us-west-1.amazonaws.com/index.json";

@@ -1,5 +1,7 @@
 import styles from "../../styles/PokemonDetails.module.css";
-import { GetServerSideProps } from "next";
+import { GetStaticPaths, GetStaticProps } from "next";
+import { URL_POKEMONS_JSON } from "../../utils/constants";
+import IPokemon from "../../types/IPokemon";
 
 interface IStat {
   name: string;
@@ -13,19 +15,41 @@ interface IPokemonDetails {
   image: string;
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+interface IPath {
+  params: { pokemonId: string };
+}
+
+export const getStaticProps: GetStaticProps = async (context) => {
   const { pokemonId } = context.params as any;
-  let jsonPokemonDetails;
+  let pokemonDetails: IPokemonDetails | undefined = undefined;
 
   if (pokemonId) {
     const url = `https://jherr-pokemon.s3.us-west-1.amazonaws.com/pokemon/${pokemonId}.json`;
     const response = await fetch(url);
-    jsonPokemonDetails = await response.json();
+    pokemonDetails = await response.json();
   }
 
   return {
     // props will be passed to the page component as props
-    props: { pokemonDetails: jsonPokemonDetails },
+    props: { pokemonDetails },
+  };
+};
+
+
+
+async function getParams(): Promise<IPath[]> {
+  const response = await fetch(URL_POKEMONS_JSON);
+  const pokemons: IPokemon[] = await response.json();
+
+  return pokemons.map((it) => {
+    return { params: { pokemonId: `${it.id}` } };
+  });
+}
+
+export const getStaticPaths: GetStaticPaths = async (context) => {
+  return {
+    paths: await getParams(),
+    fallback: false, // false or 'blocking'
   };
 };
 
@@ -53,11 +77,14 @@ const PokemonDetails = (props: { pokemonDetails: IPokemonDetails }) => {
   );
   const imgUrl = `/${pokemonDetails.image}`;
   return (
-    <div>
+    <>
       <h2>
-        This pokemon details are fetched using SSR function getServerSideProps
+        This pokemon details are fetched using SSG function getStaticProps
       </h2>
-      <h4>thus <span style={{color:'red'}}>html document</span> is downloaded to the client</h4>
+      <h4>
+        thus <span style={{ color: "red" }}>html document</span> is downloaded
+        to the client
+      </h4>
       <div className={styles.PokemonDetails}>
         <img src={imgUrl} alt="image" />
         <div>
@@ -66,7 +93,7 @@ const PokemonDetails = (props: { pokemonDetails: IPokemonDetails }) => {
           {tableElem}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

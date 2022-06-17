@@ -1,23 +1,20 @@
 import Link from "next/link";
 import styles from "../../styles/Pokemons.module.css";
+import IPokemon from "../../types/IPokemon";
+import { URL_POKEMONS_JSON } from "../../utils/constants";
 
-const url = "https://jherr-pokemon.s3.us-west-1.amazonaws.com/index.json";
+const url = URL_POKEMONS_JSON;
 
 export async function getStaticProps() {
   const response = await fetch(url);
-  const jsonPokemons = await response.json();
+  const pokemons : IPokemon[] = await response.json();
 
   return {
     // props will be passed to the page component as props
-    props: { pokemons: jsonPokemons },
+    props: { pokemons},
   };
 }
 
-interface IPokemon {
-  id: number;
-  name: string;
-  image: string;
-}
 
 const Pokemons = (props: { pokemons: IPokemon[] }) => {
 
@@ -35,7 +32,7 @@ const Pokemons = (props: { pokemons: IPokemon[] }) => {
 
   return (
     <div className={styles.Pokemons}>
-      <h2>These pokemons are fetched using SSR function getServerSideProps</h2>
+      <h2>These pokemons are fetched using SSG function getStaticProps</h2>
       <h4>
         thus <span style={{ color: "red" }}>html document</span> is downloaded
         to the client
