@@ -3,7 +3,9 @@ Play with static site generation (ssg). following <a href='https://www.youtube.c
 
 
 <h2>Static Site Generation and getStaticProps</h2>
-getStaticProps is computed on build time for production but for development it is computed on each request. If you want to simulate production simply :
+getStaticProps is computed on build time for production . This is perefect when the page is not change after build e.g. for Home \ About page
+
+<p>Notice that for development it is computed on each request. If you want to simulate production simply :</p?>
 
 ```
 npm run build
